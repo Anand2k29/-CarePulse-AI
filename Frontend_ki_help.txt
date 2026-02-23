@@ -1,0 +1,25 @@
+Hi,
+
+Backend API for the Medical Chatbot is ready.
+
+Steps to run:
+
+1. Create virtual environment
+2. pip install -r requirements.txt
+3. python train_model.py
+4. uvicorn main:app --reload
+
+Base URL:
+http://127.0.0.1:8000
+
+Chat Endpoint:
+POST /chat
+
+Request Format:
+{
+  "message": "I have fever and headache"
+}
+
+CORS is already enabled.
+
+Let me know once integrated.
