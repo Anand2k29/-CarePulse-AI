@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarePulse AI - Intelligent Symptom Analyzer</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="pulse-icon-container">
+                    <i class="fa-solid fa-heart-pulse heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>CarePulse <span class="accent-text">AI</span></h1>
+                    <p>Clinical Symptom Analysis Engine</p>
+                </div>
+            </div>
+            <div class="api-status">
+                <span class="status-dot online" id="statusDot"></span>
+                <span class="status-text" id="statusText">Checking Backend...</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-workspace">
+            <!-- Left Side: Interactive Chat Agent -->
+            <section class="chat-section glass-panel">
+                <div class="section-header">
+                    <i class="fa-solid fa-comments"></i>
+                    <h2>Symptom Assistant</h2>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message system-message fade-in">
+                        <div class="message-avatar">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I am your AI Medical Assistant. Please describe the symptoms you are experiencing in detail (e.g., <em>"I have a high fever, mild headache, and joint pain"</em>).</p>
+                            <span class="message-time">Just now</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Input Control -->
+                <div class="chat-input-area">
+                    <form id="chatForm" class="input-wrapper">
+                        <input type="text" id="messageInput" placeholder="Describe your symptoms..." autocomplete="off" required>
+                        <button type="submit" id="sendBtn" class="send-btn">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Right Side: Medical Diagnostics Dashboard -->
+            <section class="diagnostics-section glass-panel" id="diagnosticsSection">
+                
+                <!-- Initial Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon-container">
+                        <i class="fa-solid fa-stethoscope"></i>
+                    </div>
+                    <h3>Waiting for Analysis</h3>
+                    <p>Enter your symptoms in the assistant panel on the left to display real-time medical insights and predictions.</p>
+                </div>
+
+                <!-- Active Diagnostics Panel -->
+                <div class="diagnostics-content hidden" id="diagnosticsContent">
+                    
+                    <!-- Primary Condition Overview Card -->
+                    <div class="diagnostic-card primary-card">
+                        <div class="card-header">
+                            <span>POSSIBLE CONDITION</span>
+                            <div class="confidence-badge" id="confidenceBadge">0%</div>
+                        </div>
+                        <h2 id="possibleCondition">Allergy</h2>
+                        <p id="conditionDescription">Description of the disease will go here.</p>
+                    </div>
+
+                    <!-- Symptoms & Severity Grid -->
+                    <div class="insights-grid">
+                        <!-- Matched Symptoms list -->
+                        <div class="diagnostic-card">
+                            <div class="card-title">
+                                <i class="fa-solid fa-list-check"></i>
+                                <span>Matched Symptoms</span>
+                            </div>
+                            <div class="symptom-tags" id="matchedSymptoms">
+                                <!-- Tags will be dynamically generated here -->
+                            </div>
+                        </div>
+
+                        <!-- Severity & Risk Score -->
+                        <div class="diagnostic-card severity-card">
+                            <div class="card-title">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span>Severity & Risk</span>
+                            </div>
+                            <div class="severity-visual">
+                                <div class="risk-info">
+                                    <div class="risk-badge" id="riskBadge">LOW</div>
+                                    <span class="score-label">Score: <strong id="severityScore">0</strong></span>
+                                </div>
+                                <div class="progress-ring-container">
+                                    <!-- Circular Progress Bar -->
+                                    <svg class="progress-ring" width="80" height="80">
+                                        <circle class="progress-ring-bg" stroke="rgba(255,255,255,0.06)" stroke-width="6" fill="transparent" r="34" cx="40" cy="40"/>
+                                        <circle class="progress-ring-bar" id="severityProgress" stroke="#10b981" stroke-width="6" stroke-linecap="round" fill="transparent" r="34" cx="40" cy="40"/>
+                                    </svg>
+                                    <div class="progress-ring-text" id="severityPercent">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top 3 Probability Bar Chart -->
+                    <div class="diagnostic-card">
+                        <div class="card-title">
+                            <i class="fa-solid fa-chart-bar"></i>
+                            <span>Probability Distribution</span>
+                        </div>
+                        <div class="chart-container" id="probabilityChart">
+                            <!-- Bars will be dynamically injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Precautions Grid -->
+                    <div class="diagnostic-card">
+                        <div class="card-title">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Recommended Precautions</span>
+                        </div>
+                        <div class="precautions-list" id="precautionsList">
+                            <!-- Injected precaution cards -->
+                        </div>
+                    </div>
+
+                    <!-- Follow Up Engine -->
+                    <div class="diagnostic-card follow-up-card">
+                        <div class="card-title">
+                            <i class="fa-solid fa-circle-question"></i>
+                            <span>Suggested Follow-up Questions</span>
+                        </div>
+                        <p class="follow-up-subtitle">Select a symptom below to investigate further:</p>
+                        <div class="follow-up-chips" id="followUpChips">
+                            <!-- Injected chips -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Emergency Banner Overlay -->
+                <div class="emergency-overlay hidden" id="emergencyOverlay">
+                    <div class="emergency-content">
+                        <div class="emergency-icon-ring">
+                            <i class="fa-solid fa-circle-exclamation blink-animation"></i>
+                        </div>
+                        <h2>EMERGENCY DETECTED</h2>
+                        <p class="emergency-sub">Critical life-threatening symptom matched.</p>
+                        <div class="matched-emergency-symptoms">
+                            <span>Matched emergency symptoms:</span>
+                            <div class="symptom-tags justify-center" id="emergencySymptoms">
+                                <!-- Symptoms in emergency -->
+                            </div>
+                        </div>
+                        <div class="alert-box">
+                            <i class="fa-solid fa-phone-volume"></i>
+                            <div>
+                                <h4>PLEASE SEEK IMMEDIATE MEDICAL CARE</h4>
+                                <p>Call emergency services (like 911 or local equivalents) or proceed to the nearest emergency room immediately.</p>
+                            </div>
+                        </div>
+                        <button class="reset-emergency-btn" id="dismissEmergencyBtn">Dismiss Alert</button>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <!-- Footer / Disclaimer -->
+        <footer class="app-footer">
+            <p><i class="fa-solid fa-circle-info"></i> <strong>Disclaimer:</strong> This tool is an AI-powered symptom classifier. It does not provide medical diagnoses or treatment recommendations. Please consult a qualified healthcare professional for medical advice.</p>
+        </footer>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>

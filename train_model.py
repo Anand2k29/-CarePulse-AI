@@ -6,6 +6,15 @@ import joblib
 df = pd.read_csv("data/dataset.csv")
 df.fillna("", inplace=True)
 
+# Clean disease names
+df["Disease"] = df["Disease"].str.strip().replace({
+    "Dimorphic hemmorhoids(piles)": "Dimorphic hemorrhoids(piles)"
+})
+
+# Clean symptom columns
+for col in df.columns[1:]:
+    df[col] = df[col].astype(str).str.strip().str.replace(" ", "")
+
 # Collect all unique symptoms
 symptoms = set()
 for col in df.columns[1:]:

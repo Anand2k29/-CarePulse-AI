@@ -1,207 +1,78 @@
-🏥 Advanced AI Medical Chatbot Backend
-An intelligent, Machine Learning–powered medical chatbot API built using FastAPI.
-The system predicts possible diseases from user symptoms, calculates severity scores, detects emergencies, and provides structured medical guidance for frontend integration.
+# CarePulse AI 🏥
+### Intelligent Medical Symptom Analyzer & Triage Assistant
 
-📌 Project Overview
-This backend system is designed as part of an AI Healthcare Dashboard project.
+CarePulse AI is a local-first, Machine Learning-powered clinical support engine. It translates natural, free-text symptom descriptions from patients into structured, data-driven disease predictions, calculates clinical severity indexes, suggests follow-up inquiries, and screens for life-threatening medical emergencies.
 
-The chatbot:
+---
 
-Parses free-text symptom input
+## 💡 Suggested Names for the Project
+1. **CarePulse AI** (Primary Recommendation - Used in the Web Dashboard)
+2. **SymptomIQ** (Highlights intelligence and diagnostic precision)
+3. **OmniClinic AI** (Represents a comprehensive, clinical helper suite)
+4. **TriageFlow** (Focuses on symptom scoring and emergency triaging)
 
-Predicts disease using a trained RandomForest model
+---
 
-Calculates severity score using weighted symptom data
+## 📌 What It Is About
+Traditional medical databases require users to select checkboxes from exhaustive symptom lists. CarePulse AI innovates on this by letting users type their conditions in natural language (e.g., *"I have had a sharp chest pain, high fever, and I'm feeling very short of breath"*). 
 
-Classifies risk level (Low / Medium / High)
+The application utilizes:
+1. **Natural Language Parsing**: Maps sentences to clean, standardized symptom identifiers.
+2. **Random Forest Classifier**: Feeds a binary vector into an ML model trained on thousands of diagnostic combinations to classify the most probable disease.
+3. **Clinical Severity Scoring**: Aggregates weights corresponding to the matched symptoms.
+4. **Emergency Triage Check**: Inspects vectors for critical symptoms (such as chest pain or breathlessness) to immediately flag emergency conditions.
 
-Detects emergency symptoms
+---
 
-Suggests follow-up questions
+## 🚀 Key Features
 
-Returns structured JSON response
+* **Natural Language Symptom Extractor**: Normalizes free text input, removes special characters, and matches descriptions to a list of 131 symptoms.
+* **Random Forest ML Classification**: Computes probability distributions for 41 different diseases, outputting the most likely condition and confidence metrics.
+* **Top 3 Diagnostic Probabilities**: Computes and displays the top 3 alternative diagnoses in real time.
+* **Weighted Severity Scoring**: Integrates a clinical database of symptom weights to score case severity and assign a Risk Level (Low, Medium, High).
+* **Automated Follow-up Engine**: Identifies missing symptoms associated with the predicted disease and suggests relevant follow-up questions to help users narrow down their condition.
+* **Instant Emergency Triaging**: Scans for life-threatening emergency symptoms (chest pain, breathlessness, unconsciousness, severe bleeding) and overrides standard output with warning directions.
+* **Interactive Web Dashboard**: A glassmorphic split-pane web UI with custom circular SVG gauges, visual probability bar charts, and clickable suggestion chips.
+* **CORS-Enabled & Local-First**: Secured API that runs locally on FastAPI and can be easily integrated into mobile or web frontends.
 
-Provides confidence percentage & top-3 predictions
+---
 
-🚀 Key Features
-✅ ML-based disease classification (RandomForest)
+## ⚡ Technical Innovation & Data Integrity
 
-✅ NLP-based symptom extraction
+1. **Normalized Machine Learning Model**: Resolved the original dataset spacing anomalies. In the original data, 130 out of 131 symptoms contained leading/trailing spaces (e.g., `' chest_pain'`, `' high_fever'`). This caused lookups to return `0` severity. The model is now trained on fully stripped, space-less variables, enabling perfect matches.
+2. **Disease spelling matching**: Standardized spelling differences between data sources (e.g., mapping `'Dimorphic hemmorhoids(piles)'` and `'Diabetes '` to their clean equivalents) to prevent index lookup crashes.
+3. **Safe Database Query fallbacks**: Built query checks that return fallback statements instead of crashing the Python server with `IndexError` when descriptions or precautions are missing.
+4. **Symptom Typo Aliasing**: Programmed the parser to map common search keywords (like `"foul smell of urine"` to `"foul_smell_ofurine"`) to correctly identify user intent.
 
-✅ Symptom severity scoring system
+---
 
-✅ Risk level classification
+## ⚙️ How to Run Locally
 
-✅ Emergency detection logic
-
-✅ Top-3 probability distribution
-
-✅ Realistic confidence capping
-
-✅ Follow-up question generation
-
-✅ Structured API response format
-
-✅ CORS enabled for frontend integration
-
-✅ Health check endpoint
-
-✅ Production-ready FastAPI backend
-
-🧠 System Workflow
-User Input (Free Text Symptoms)
-↓
-Symptom Parser (Text → Known Symptoms)
-↓
-ML Classifier (Binary Symptom Vector → Disease Prediction)
-↓
-Severity Engine (Weighted Score Calculation)
-↓
-Risk Classification
-↓
-Emergency Detection
-↓
-Response Formatter
-↓
-Structured JSON Output
-
-📂 Project Structure
-medical_chatbot_v2/
-│
-├── data/
-│   ├── dataset.csv
-│   ├── symptom_Description.csv
-│   ├── symptom_precaution.csv
-│   └── Symptom-severity.csv
-│
-├── models/
-│   └── disease_model.pkl
-│
-├── services/
-│   ├── ml_predictor.py
-│   ├── symptom_parser.py
-│   ├── severity_engine.py
-│   ├── emergency.py
-│   ├── followup_engine.py
-│   ├── formatter.py
-│
-├── train_model.py
-├── main.py
-├── requirements.txt
-└── README.md
-⚙️ Installation Guide
-1️⃣ Clone or Download the Project
-git clone <your-repository-url>
-cd medical_chatbot_v2
-Or download ZIP and extract.
-
-2️⃣ Create Virtual Environment
-Windows:
-
+### 1️⃣ Virtual Environment Setup
+```powershell
 python -m venv venv
+# On Windows:
 venv\Scripts\activate
-Mac/Linux:
-
-python3 -m venv venv
+# On Mac/Linux:
 source venv/bin/activate
-3️⃣ Install Dependencies
-pip install -r requirements.txt
-4️⃣ Train the ML Model (Run Once)
-Before running the API, generate the model file:
+```
 
+### 2️⃣ Install Dependencies
+```bash
+pip install -r recquirements.txt
+```
+
+### 3️⃣ Retrain the Classifier (Creates models/disease_model.pkl)
+```bash
 python train_model.py
-This creates:
+```
 
-models/disease_model.pkl
-5️⃣ Run the Backend Server
+### 4️⃣ Start the Backend API (http://localhost:8000)
+```bash
 uvicorn main:app --reload
-Server runs at:
+```
 
-http://127.0.0.1:8000
-📡 API Endpoints
-🔹 Health Check
-GET /
-
-http://127.0.0.1:8000/
-Response:
-
-{
-  "status": "Medical Chatbot API is running"
-}
-🔹 Chat Endpoint
-POST /chat
-
-http://127.0.0.1:8000/chat
-📥 Request Format
-{
-  "message": "I have fever, headache and chest pain"
-}
-📤 Response Format
-{
-  "Possible_Condition": "Disease Name",
-  "Matched_Symptoms": ["Fever", "Chest pain"],
-  "Description": "Disease explanation...",
-  "Recommended_Precautions": ["Rest", "Consult doctor"],
-  "Risk_Level": "High",
-  "Severity_Score": 18,
-  "Confidence_percent": 92.5,
-  "Top_3_Predictions": [
-    {"Disease": "Disease A", "Probability_percent": 92.5},
-    {"Disease": "Disease B", "Probability_percent": 4.1},
-    {"Disease": "Disease C", "Probability_percent": 2.3}
-  ],
-  "Follow_up_Questions": ["Do you have nausea?"],
-  "Emergency": false,
-  "Disclaimer": "This is not a medical diagnosis. Please consult a qualified doctor."
-}
-🚨 Emergency Detection
-The system automatically flags emergency symptoms such as:
-
-Chest pain
-
-Breathlessness
-
-Unconsciousness
-
-Severe bleeding
-
-If detected:
-
-"Emergency": true
-The system immediately advises seeking medical help.
-
-📊 Machine Learning Details
-Algorithm: RandomForestClassifier
-
-Feature Encoding: Binary symptom vector
-
-Output: Disease prediction + probability distribution
-
-Confidence capped at 95% for realistic medical output
-
-Deterministic dataset-driven predictions (no hallucination)
-
-🛡 Safety & Ethics
-No prescription-level advice given
-
-Medical disclaimer included in every response
-
-Emergency override logic implemented
-
-Designed for educational & clinical support use
-
-Not a substitute for professional medical consultation
-
-🔗 Frontend Integration Guide
-Frontend developers should use:
-
-POST http://localhost:8000/chat
-Headers:
-
-Content-Type: application/json
-CORS is already enabled.
-
-🧪 Example High Severity Test Input
-{
-  "message": "I have chest pain, breathlessness, high fever and severe headache"
-}
+### 5️⃣ Run the Interactive Web Dashboard (http://localhost:8080)
+```bash
+python -m http.server 8080 --directory frontend
+```

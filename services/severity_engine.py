@@ -3,6 +3,7 @@ import pandas as pd
 class SeverityEngine:
     def __init__(self):
         self.severity_df = pd.read_csv("data/Symptom-severity.csv")
+        self.severity_df["Symptom"] = self.severity_df["Symptom"].str.strip().str.replace(" ", "")
         self.severity_dict = dict(
             zip(self.severity_df["Symptom"],
                 self.severity_df["weight"])
