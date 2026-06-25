@@ -3,13 +3,7 @@
 
 CarePulse AI is a local-first, Machine Learning-powered clinical support engine. It translates natural, free-text symptom descriptions from patients into structured, data-driven disease predictions, calculates clinical severity indexes, suggests follow-up inquiries, and screens for life-threatening medical emergencies.
 
----
 
-## 💡 Suggested Names for the Project
-1. **CarePulse AI** (Primary Recommendation - Used in the Web Dashboard)
-
-
----
 
 ## 📌 What It Is About
 Traditional medical databases require users to select checkboxes from exhaustive symptom lists. CarePulse AI innovates on this by letting users type their conditions in natural language (e.g., *"I have had a sharp chest pain, high fever, and I'm feeling very short of breath"*). 
