@@ -7,9 +7,7 @@ CarePulse AI is a local-first, Machine Learning-powered clinical support engine.
 
 ## 💡 Suggested Names for the Project
 1. **CarePulse AI** (Primary Recommendation - Used in the Web Dashboard)
-2. **SymptomIQ** (Highlights intelligence and diagnostic precision)
-3. **OmniClinic AI** (Represents a comprehensive, clinical helper suite)
-4. **TriageFlow** (Focuses on symptom scoring and emergency triaging)
+
 
 ---
 
